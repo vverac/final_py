@@ -1,18 +1,14 @@
 # Mi Proyecto
 
+To-do
+
 ## Descripción
 
-Mi Proyecto es una aplicación web que utiliza la ...... Fastapi y es una aplicacion de tareas pendientes.
+Mi Proyecto es una aplicación web que utiliza el framework de Fastapi para crear una aplicacion de tareas pendientes o To-do.
 
 ## Instalación
 
-1. Clona el repositorio: `git clone https://github.com/tu-usuario/mi-proyecto.git`
-2. Navega al directorio del proyecto: `cd mi-proyecto`
-3. Instala las dependencias: `pip install -r requirements.txt`
-
-## Uso
-
-Para usar Mi Proyecto, ejecuta el siguiente comando:
+1. Clona el repositorio: `git clone https://github.com/vverac/final_py`
 
 instalar Fastapi: pip install "fastapi[all]",
 esto se utiliza para instalar FastAPI y todas sus dependencias opcionales en un entorno Python
@@ -25,3 +21,9 @@ itsdangerous: Necesario para soporte a SessionMiddleware.
 pyyaml: Necesario para soporte a SchemaGenerator de Starlette(probablemente no necesitarás esto con FastAPI).
 uvicorn: Para el servidor que carga y sirve tu aplicación.
 orjson: Necesario si quieres utilizar ORJSONResponse
+
+## Uso
+
+Para usar Mi Proyecto, ejecuta el siguiente comando:
+
+uvicorn main:app --reload
