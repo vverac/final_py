@@ -13,11 +13,8 @@ models.Base.metadata.create_all(bind=engine)
 # indicamos desdedonde importaremos nuestros templates, para ello crearemos la carpeta templates
 templates = Jinja2Templates(directory='./templates')
 
-# se crea una instancia de FastAPI
+# se crea una instancia de FastAPI,crear rutas, manejar solicitudes, etc
 app = FastAPI()
-
-
-# app.mount('/static', StaticFiles(directory='static'), name='static')
 
 # funcion que crea una nueva sesión de base de datos
 
@@ -29,11 +26,15 @@ def get_db():
     finally:
         db.close()
 
+# funcion que consulta la base de datos para todos los objetos de usuario
+
 
 @app.get('/')
 async def home(request: Request, db: Session = Depends(get_db)):
     users = db.query(models.User).order_by(models.User.id.desc())
     return templates.TemplateResponse('index.html', {'request': request, 'users': users})
+
+# funcion que devuelve una respuesta HTML utilizando la plantilla "addnew.html"
 
 
 @app.get('/addnew')
@@ -49,11 +50,15 @@ async def add(request: Request, tarea: str = Form(...), db: Session = Depends(ge
     db.commit()
     return RedirectResponse(url=app.url_path_for('home'), status_code=status.HTTP_303_SEE_OTHER)
 
+# funcion que consulta la base de datos para el objeto de usuario con el id dado y devuelve una respuesta HTML utilizando el "edit.html"
+
 
 @app.get('/edit/{user_id}')
 async def edit(request: Request, user_id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == user_id).first()
     return templates.TemplateResponse('edit.html', {'request': request, 'user': user})
+
+# funcion que consulta la base de datos para el objeto de usuario con el id dado, actualiza su atributo "tarea"
 
 
 @app.post('/update/{user_id}')
@@ -62,6 +67,8 @@ async def update(request: Request, user_id: int, tarea: str = Form(...), db: Ses
     users.tarea = tarea
     db.commit()
     return RedirectResponse(url=app.url_path_for('home'), status_code=status.HTTP_303_SEE_OTHER)
+
+# funcion que consulta la base de datos para el objeto de usuario con el id dado, y lo elimina de la base de datos
 
 
 @app.get('/delete/{user_id}')
