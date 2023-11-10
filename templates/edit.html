@@ -1,0 +1,17 @@
+{%extends 'base.html'%} {% block content %}
+
+<form action="/update/{{user.id}}" method="post">
+  <div class="mb-3">
+    <label> Tarea </label>
+    <input
+      type="text"
+      name="tarea"
+      placeholder="Tarea"
+      class="form-control"
+      value="{{user.tarea}}"
+    />
+  </div>
+
+  <input type="submit" value="Update" class="btn btn-primary mb-3" />
+</form>
+{% endblock content %}

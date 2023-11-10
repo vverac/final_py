@@ -48,3 +48,25 @@ async def add(request: Request, tarea: str = Form(...), db: Session = Depends(ge
     db.add(users)
     db.commit()
     return RedirectResponse(url=app.url_path_for('home'), status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.get('/edit/{user_id}')
+async def edit(request: Request, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    return templates.TemplateResponse('edit.html', {'request': request, 'user': user})
+
+
+@app.post('/update/{user_id}')
+async def update(request: Request, user_id: int, tarea: str = Form(...), db: Session = Depends(get_db)):
+    users = db.query(models.User).filter(models.User.id == user_id).first()
+    users.tarea = tarea
+    db.commit()
+    return RedirectResponse(url=app.url_path_for('home'), status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.get('/delete/{user_id}')
+async def delete(request: Request, user_id: int, db: Session = Depends(get_db)):
+    users = db.query(models.User).filter(models.User.id == user_id).first()
+    db.delete(users)
+    db.commit()
+    return RedirectResponse(url=app.url_path_for('home'), status_code=status.HTTP_303_SEE_OTHER)
