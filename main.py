@@ -1,14 +1,14 @@
 from fastapi import FastAPI, Request, Form, status, Depends
-# libreria para usar cualquier motor de plantillas
+# libreria para usar cualquier motor de plantillas, rendirar plantillas
 from fastapi.templating import Jinja2Templates
+# redirigir al usuario
 from fastapi.responses import RedirectResponse
 import models
+# estableciendo el motor y la sesión de SQLAlchemy
 from database import engine, sessionlocal
 # SQLAlchemy para manejar operaciones CRUD en un modelo de usuario, para interactuar con la base de datos.
 from sqlalchemy.orm import Session
-# modulo para servir archivos estaticos
-from fastapi.staticfiles import StaticFiles
-
+# crear todas las tablas de la base de datos que están definidas por los modelos
 models.Base.metadata.create_all(bind=engine)
 # indicamos desdedonde importaremos nuestros templates, para ello crearemos la carpeta templates
 templates = Jinja2Templates(directory='./templates')
